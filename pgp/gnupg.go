@@ -8,7 +8,6 @@ import (
 	"io"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"strings"
 )
 
@@ -58,7 +57,10 @@ func (g *GpgSigner) gpgArgs() []string {
 	}
 
 	if g.keyRef != "" {
-		args = append(args, "-u", g.keyRef)
+		users := strings.Split(g.keyRef, ":")
+		for _, u := range users {
+			args = append(args, "-u", u)
+		}
 	}
 
 	if g.passphrase != "" || g.passphraseFile != "" {
@@ -81,7 +83,6 @@ func (g *GpgSigner) gpgArgs() []string {
 			args = append(args, "--pinentry-mode", "loopback")
 		}
 	}
-
 	return args
 }
 
@@ -110,7 +111,7 @@ func (g *GpgSigner) Init() error {
 
 // DetachedSign signs file with detached signature in ASCII format
 func (g *GpgSigner) DetachedSign(source string, destination string) error {
-	fmt.Printf("Signing file '%s' with gpg, please enter your passphrase when prompted:\n", filepath.Base(source))
+	// fmt.Printf("Signing file '%s' with gpg, please enter your passphrase when prompted:\n", filepath.Base(source))
 
 	args := []string{"-o", destination, "--digest-algo", "SHA256", "--armor", "--yes"}
 	args = append(args, g.gpgArgs()...)
@@ -124,7 +125,7 @@ func (g *GpgSigner) DetachedSign(source string, destination string) error {
 
 // ClearSign clear-signs the file
 func (g *GpgSigner) ClearSign(source string, destination string) error {
-	fmt.Printf("Clearsigning file '%s' with gpg, please enter your passphrase when prompted:\n", filepath.Base(source))
+	// fmt.Printf("Clearsigning file '%s' with gpg, please enter your passphrase when prompted:\n", filepath.Base(source))
 	args := []string{"-o", destination, "--digest-algo", "SHA256", "--yes"}
 	args = append(args, g.gpgArgs()...)
 	args = append(args, "--clearsign", source)
