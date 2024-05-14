@@ -76,14 +76,3 @@ jobs:
           AZURE_STORAGE_ACCESS_KEY: "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
         run: |
           COVERAGE_DIR=${{ runner.temp }} make
-
-      - name: Merge code coverage
-        run: |
-          go install github.com/wadey/gocovmerge@latest
-          ~/go/bin/gocovmerge unit.out ${{ runner.temp }}/*.out > coverage.txt
-
-      - name: Upload code coverage
-        uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: coverage.txt
