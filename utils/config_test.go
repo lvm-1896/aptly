@@ -77,6 +77,9 @@ func (s *ConfigSuite) TestSaveConfig(c *C) {
 		"  \"gpgDisableSign\": false,\n"+
 		"  \"gpgDisableVerify\": false,\n"+
 		"  \"gpgProvider\": \"gpg\",\n"+
+		"  \"gpgKeyring\": \"\",\n"+
+		"  \"gpgSecretKeyring\": \"\",\n"+
+		"  \"gpgSigningKey\": \"\",\n"+
 		"  \"downloadSourcePackages\": false,\n"+
 		"  \"skipLegacyPool\": false,\n"+
 		"  \"ppaDistributorID\": \"\",\n"+
