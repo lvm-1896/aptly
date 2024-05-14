@@ -120,6 +120,7 @@ func (g *GpgSigner) DetachedSign(source string, destination string) error {
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+	fmt.Printf("running %s %s\n", g.gpg, strings.Join(args, " "))
 	return cmd.Run()
 }
 
@@ -133,6 +134,7 @@ func (g *GpgSigner) ClearSign(source string, destination string) error {
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+	fmt.Printf("running %s %s\n", g.gpg, strings.Join(args, " "))
 	return cmd.Run()
 }
 

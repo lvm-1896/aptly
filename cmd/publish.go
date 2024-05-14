@@ -7,32 +7,15 @@ import (
 )
 
 func getSigner(flags *flag.FlagSet) (pgp.Signer, error) {
-	if LookupOption(context.Config().GpgDisableSign, flags, "skip-signing") {
-		return nil, nil
-	}
-
 	signer := context.GetSigner()
 	conf := context.Config()
-	var key, flag string
-	key = conf.GpgSigningKey
-	flag = flags.Lookup("gpg-key").Value.String()
-	if len(flag) > 0 {
-		key = flag
+	if LookupOption(conf.GpgDisableSign, flags, "skip-signing") {
+		return nil, nil
 	}
-	signer.SetKey(key)
-	key = conf.GpgKeyring
-	flag = flags.Lookup("keyring").Value.String()
-	if len(flag) > 0 {
-		key = flag
-	}
-	kr := key
-	key = conf.GpgSecretKeyring
-	flag = flags.Lookup("secret-keyring").Value.String()
-	if len(flag) > 0 {
-		key = flag
-	}
-	skr := key
-	signer.SetKeyRing(kr, skr)
+	signer.SetKey(LookupOptionString(conf.GpgSigningKey, flags, "gpg-key"))
+	signer.SetKey(LookupOptionString(conf.GpgSigningKey, flags, "gpg-key"))
+	signer.SetKeyRing(LookupOptionString(conf.GpgKeyring, flags, "keyring"),
+		LookupOptionString(conf.GpgSecretKeyring, flags, "secret-keyring"))
 	signer.SetPassphrase(flags.Lookup("passphrase").Value.String(), flags.Lookup("passphrase-file").Value.String())
 	signer.SetBatch(flags.Lookup("batch").Value.Get().(bool))
 

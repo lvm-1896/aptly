@@ -77,6 +77,18 @@ func LookupOption(defaultValue bool, flags *flag.FlagSet, name string) (result b
 	return
 }
 
+// LookupOptionString checks string flag with default (usually config) and command-line
+// setting
+func LookupOptionString(defaultValue string, flags *flag.FlagSet, name string) (result string) {
+	result = defaultValue
+
+	if flags.IsSet(name) {
+		result = flags.Lookup(name).Value.String()
+	}
+
+	return
+}
+
 // RootCommand creates root command in command tree
 func RootCommand() *commander.Command {
 	cmd := &commander.Command{
