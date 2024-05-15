@@ -12,10 +12,10 @@ func getSigner(flags *flag.FlagSet) (pgp.Signer, error) {
 	if LookupOption(conf.GpgDisableSign, flags, "skip-signing") {
 		return nil, nil
 	}
-	signer.SetKey(LookupOptionString(conf.GpgSigningKey, flags, "gpg-key"))
-	signer.SetKey(LookupOptionString(conf.GpgSigningKey, flags, "gpg-key"))
-	signer.SetKeyRing(LookupOptionString(conf.GpgKeyring, flags, "keyring"),
-		LookupOptionString(conf.GpgSecretKeyring, flags, "secret-keyring"))
+	signer.SetKey(LookupString(conf.GpgSigningKey, flags, "gpg-key"))
+	signer.SetKey(LookupString(conf.GpgSigningKey, flags, "gpg-key"))
+	signer.SetKeyRing(LookupString(conf.GpgKeyring, flags, "keyring"),
+		LookupString(conf.GpgSecretKeyring, flags, "secret-keyring"))
 	signer.SetPassphrase(flags.Lookup("passphrase").Value.String(), flags.Lookup("passphrase-file").Value.String())
 	signer.SetBatch(flags.Lookup("batch").Value.Get().(bool))
 

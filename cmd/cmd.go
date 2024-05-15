@@ -77,9 +77,9 @@ func LookupOption(defaultValue bool, flags *flag.FlagSet, name string) (result b
 	return
 }
 
-// LookupOptionString checks string flag with default (usually config) and command-line
+// LookupString checks string flag with default (usually config) and command-line
 // setting
-func LookupOptionString(defaultValue string, flags *flag.FlagSet, name string) (result string) {
+func LookupString(defaultValue string, flags *flag.FlagSet, name string) (result string) {
 	result = defaultValue
 
 	if flags.IsSet(name) {
